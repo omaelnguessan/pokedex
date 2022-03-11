@@ -11,6 +11,8 @@ import { useEffect, useState } from "react";
 import { POKEMON_API_URL } from "../../config";
 import { useParams } from "react-router-dom";
 import FavoriteIcon from "@material-ui/icons/Favorite";
+import { connect } from "react-redux";
+import { toggleFavorite } from "../../redux/action";
 
 const styles = makeStyles((theme) => ({
   pokedexContainer: {
@@ -51,7 +53,7 @@ function Details(props) {
   const classes = styles();
   const [pokemon, setPokemon] = useState([]);
   const param = useParams();
-
+  console.log(props);
   useEffect(() => {
     const id = param?.id;
     axios.get(POKEMON_API_URL + "/" + id).then((response) => {
@@ -61,6 +63,15 @@ function Details(props) {
     });
   }, []);
 
+  const favoriteCheck = (pokemon) => {
+    let found = false;
+    props.favorites.map((p) => {
+      if (p.id === pokemon.id) {
+        found = true;
+      }
+    });
+    return found;
+  };
   if (pokemon.length !== 0) {
     let { name, sprites, height, weight, types } = pokemon;
 
@@ -79,8 +90,16 @@ function Details(props) {
             <hr className={classes.seperator} />
             <Grid container>
               <Grid item md={1}>
-                <Button className={classes.favorite}>
-                  <FavoriteIcon style={{ color: "white", fontSize: 50 }} />
+                <Button
+                  className={classes.favorite}
+                  onClick={() => props.toggleFavorite(pokemon)}
+                >
+                  <FavoriteIcon
+                    style={{
+                      color: favoriteCheck(pokemon) ? "red" : "white",
+                      fontSize: 50,
+                    }}
+                  />
                 </Button>
               </Grid>
               <Grid item md={2}>
@@ -117,4 +136,12 @@ function Details(props) {
   }
 }
 
-export default Details;
+const mapStateToProps = (state) => ({
+  favorites: state.favorites,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  toggleFavorite: (pokemon) => dispatch(toggleFavorite(pokemon)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Details);
