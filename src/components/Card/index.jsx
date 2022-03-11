@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -24,6 +25,9 @@ const useStyles = makeStyles((theme) => ({
   cardContent: {
     textAlign: "center",
   },
+  link: {
+    textDecoration: "none",
+  },
 }));
 function PokemonCard(props) {
   const { pokemon, image } = props;
@@ -31,12 +35,14 @@ function PokemonCard(props) {
   const classes = useStyles();
   return (
     <Grid item md={3} xs={12} sm={12}>
-      <Card className={classes.card}>
-        <CardMedia className={classes.cardMedia} image={image} />
-        <CardContent>
-          <Typography>{name}</Typography>
-        </CardContent>
-      </Card>
+      <Link className={classes.link} to={"/pokemon/" + id}>
+        <Card className={classes.card}>
+          <CardMedia className={classes.cardMedia} image={image} />
+          <CardContent>
+            <Typography>{name}</Typography>
+          </CardContent>
+        </Card>
+      </Link>
     </Grid>
   );
 }

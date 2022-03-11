@@ -21,22 +21,22 @@ function Home() {
         const { results } = response.data;
         let newPokemonData = [];
         results.forEach((pokemon, index) => {
-          let image = index + 1;
+          let id = index + 1;
           let pokemonObject = {
-            id: index,
-            url: IMAGE_API_URL + image + ".png",
+            id: id,
+            url: IMAGE_API_URL + id + ".png",
             name: pokemon.name,
           };
-          console.log(pokemonObject);
           newPokemonData.push(pokemonObject);
         });
         setPokemonData(newPokemonData);
       }
     });
   }, []);
-  return (
-    <Box>
-      {pokemonData ? (
+
+  if (pokemonData) {
+    return (
+      <Box>
         <Grid className={classes.pokedexContainer} container spacing={2}>
           {pokemonData.map((pokemon) => {
             return (
@@ -48,11 +48,11 @@ function Home() {
             );
           })}
         </Grid>
-      ) : (
-        <CircularProgress style={{ marginTop: 100 }} />
-      )}
-    </Box>
-  );
+      </Box>
+    );
+  } else {
+    return <CircularProgress style={{ marginTop: 100 }} />;
+  }
 }
 
 export default Home;
