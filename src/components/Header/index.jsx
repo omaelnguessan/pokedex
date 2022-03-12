@@ -25,6 +25,15 @@ function Header() {
             Pokedex
           </Typography>
         </Link>
+        <Link
+          to="/Favorites"
+          className={classes.link}
+          style={{ marginLeft: 16 }}
+        >
+          <Typography className={classes.title} variant="h6">
+            Favorites
+          </Typography>
+        </Link>
       </Toolbar>
     </AppBar>
   );

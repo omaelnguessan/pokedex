@@ -7,6 +7,7 @@ import Details from "./pages/Details";
 import { Provider } from "react-redux";
 import { persistor, store } from "./redux/store";
 import { PersistGate } from "redux-persist/integration/react";
+import Favorites from "./pages/Favorites";
 
 ReactDOM.render(
   <Provider store={store}>
@@ -16,6 +17,7 @@ ReactDOM.render(
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route path="/pokemon/:id" element={<Details />} />
+          <Route path="/favorites" element={<Favorites />} />
         </Routes>
       </Router>
     </PersistGate>
